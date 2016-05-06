@@ -55,4 +55,19 @@
   )
 
 
-(setq erlang-indent-level 2)
+;; erlang specific
+(setq flycheck-erlang-include-path (list "../include"
+                                         "../../include"
+                                         "../../../include"
+                                         "../deps/rabbit_common/include"
+                                         "../deps/lager/include"
+                                         "/Users/zhuoyikang/source/vcity/gateway/deps/proto/include"
+                                         "/Users/zhuoyikang/source/vcity/player/deps/proto/includel"
+                                         "../deps/proto/include"))
+
+(setq flycheck-erlang-library-path (list "ebin" "../ebin"  "../../ebin"  "../../../ebin" "../deps/*/ebin" ))
+
+
+(setenv "ERL_LIBS" "/Users/zhuoyikang/source/vcity/all/deps")
+
+;;(setq erlang-indent-level 4)
