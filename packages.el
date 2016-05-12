@@ -61,8 +61,7 @@
                                          "../../../include"
                                          "../deps/rabbit_common/include"
                                          "../deps/lager/include"
-                                         "/Users/zhuoyikang/source/vcity/gateway/deps/proto/include"
-                                         "/Users/zhuoyikang/source/vcity/player/deps/proto/includel"
+                                         "/Users/zhuoyikang/source/vcity/all/apps/proto/include"
                                          "../deps/proto/include"))
 
 (setq flycheck-erlang-library-path (list "ebin" "../ebin"  "../../ebin"  "../../../ebin" "../deps/*/ebin" ))
