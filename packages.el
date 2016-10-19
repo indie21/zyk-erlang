@@ -9,15 +9,92 @@
 ;;
 ;;; License: GPLv3
 
-(setq zyk-erlang-packages
-  '(
-    company
-    erlang
-    ;;distel
-    ))
+(setq zyk-packages
+      '(
+        erlang
+        ))
 
-(defun zyk-erlang/post-init-company ()
-  (add-hook 'erlang-mode-hook 'company-mode))
+
+
+;;----------------------------------------------------------------------------
+;; 让你的上下左右键可以用来切换窗口
+;;----------------------------------------------------------------------------
+
+(when (fboundp 'winner-mode)
+  (winner-mode 1))
+(windmove-default-keybindings)
+(global-set-key (kbd "<f7> ") 'winner-undo)
+
+
+;;----------------------------------------------------------------------------
+;; Org模式
+;;----------------------------------------------------------------------------
+
+;;显示不够的内容。自动换行.
+(add-hook 'org-mode-hook (lambda () (setq truncate-lines nil)))
+(setq org-agenda-files (list "~/source/gtd"  ))
+
+;;org-mode 和winner模式冲突.
+(add-hook 'org-shiftup-final-hook 'windmove-up)
+(add-hook 'org-shiftleft-final-hook 'windmove-left)
+(add-hook 'org-shiftdown-final-hook 'windmove-down)
+(add-hook 'org-shiftright-final-hook 'windmove-right)
+
+
+
+;;----------------------------------------------------------------------------
+;; 习惯按键设置
+;;----------------------------------------------------------------------------
+
+(global-set-key (kbd "C-c C-c")   'comment-region)
+(global-set-key (kbd "C-c C-u")   'uncomment-region)
+
+(global-set-key (kbd "C-q") 'backward-kill-word)
+(global-set-key (kbd "C-c C-f") 'goto-line)
+
+(global-set-key (kbd "M-|") 'indent-region)
+(global-set-key (kbd "M-h") 'mark-paragraph)
+
+
+
+;;----------------------------------------------------------------------------
+;; 桌面保存
+;;----------------------------------------------------------------------------
+
+(desktop-save-mode)
+;; 不再提示 You appear to be setting environment variables ("PATH" "MANPATH")
+;; in your .bashrc or .zshrc
+(setq exec-path-from-shell-check-startup-files nil)
+
+;;----------------------------------------------------------------------------
+;; 打开大文件
+;;----------------------------------------------------------------------------
+
+(defun large-file-hook ()
+  "If a file is over a given size, make the buffer read only."
+  (when (> (buffer-size) (* 2 1024 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (buffer-disable-undo)
+    (linum-mode 0)
+    (font-lock-mode 0)
+    (fundamental-mode)))
+
+
+
+;;----------------------------------------------------------------------------
+;; eclim
+;;----------------------------------------------------------------------------
+
+(setq eclim-eclipse-dirs "/Applications/Eclipse.app/Contents/Eclipse/"
+      eclimd-executable "/Applications/Eclipse.app/Contents/Eclipse/eclimd"
+      eclim-executable "/Applications/Eclipse.app/Contents/Eclipse/eclim")
+
+
+
+;;----------------------------------------------------------------------------
+;; erlang
+;;----------------------------------------------------------------------------
 
 
 (defun zyk-erlang/init-erlang ()
@@ -35,6 +112,7 @@
                 (lambda ()
                   (setq mode-name "Erlang")
                   (flycheck-mode)
+                  (setq indent-tabs-mode nil)
                   (modify-syntax-entry ?_ "w") ;;让this_good连成一个单词处理
                   ;; when starting an Erlang shell in Emacs, with a custom node name
                   (setq-default indent-tabs-mode nil)
@@ -53,20 +131,3 @@
     (setq erl-nodename-cache 'develop@127.0.0.1)
     )
   )
-
-
-;; erlang specific
-(setq flycheck-erlang-include-path (list "../include"
-                                         "../../include"
-                                         "../../../include"
-                                         "../deps/rabbit_common/include"
-                                         "../deps/lager/include"
-                                         "/Users/zhuoyikang/source/vcity/all/apps/proto/include"
-                                         "../deps/proto/include"))
-
-(setq flycheck-erlang-library-path (list "ebin" "../ebin"  "../../ebin"  "../../../ebin" "../deps/*/ebin" ))
-
-
-(setenv "ERL_LIBS" "/Users/zhuoyikang/source/vcity/all/deps")
-
-;;(setq erlang-indent-level 4)

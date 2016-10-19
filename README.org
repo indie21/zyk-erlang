@@ -1,10 +1,10 @@
-#+TITLE: zyk-erlang layer
+#+TITLE: zyk layer
 #+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="../css/readtheorg.css" />
 
 #+CAPTION: logo
 
 # The maximum height of the logo should be 200 pixels.
-[[img/zyk-erlang.png]]
+[[img/zyk.png]]
 
 * Table of Contents                                        :TOC_4_org:noexport:
  - [[Description][Description]]
@@ -19,11 +19,11 @@ This layer does wonderful things:
 To use this contribution add it to your =~/.spacemacs=
 
 #+begin_src emacs-lisp
-  (setq-default dotspacemacs-configuration-layers '(zyk-erlang))
+(setq-default dotspacemacs-configuration-layers '(zyk))
 #+end_src
 
 * Key bindings
 
-| Key Binding     | Description    |
-|-----------------+----------------|
-| ~<SPC> x x x~   | Does thing01   |
+| Key Binding   | Description  |
+|---------------+--------------|
+| ~<SPC> x x x~ | Does thing01 |
