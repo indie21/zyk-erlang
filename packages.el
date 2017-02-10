@@ -11,10 +11,21 @@
 
 (setq zyk-packages
       '(
+        protobuf-mode
         erlang
         ))
 
 
+
+
+;;----------------------------------------------------------------------------
+;; protobuff
+;;----------------------------------------------------------------------------
+
+
+(defun zyk/init-protobuf-mode ()
+  (use-package protobuf-mode
+    :defer t))
 
 ;;----------------------------------------------------------------------------
 ;; 让你的上下左右键可以用来切换窗口
@@ -41,21 +52,27 @@
 (add-hook 'org-shiftright-final-hook 'windmove-right)
 
 
-
 ;;----------------------------------------------------------------------------
 ;; 习惯按键设置
 ;;----------------------------------------------------------------------------
 
 (global-set-key (kbd "C-c C-c")   'comment-region)
-(global-set-key (kbd "C-c C-u")   'uncomment-region)
+(global-set-key (kbd "C-c u")   'uncomment-region)
 
-(global-set-key (kbd "C-q") 'backward-kill-word)
+
+
+(global-set-key (kbd "C-c C-l") 'kill-region)
+(global-set-key (kbd "C-c v") 'kill-region)
 (global-set-key (kbd "C-c C-f") 'goto-line)
+
 
 (global-set-key (kbd "M-|") 'indent-region)
 (global-set-key (kbd "M-h") 'mark-paragraph)
 
-
+(global-set-key (kbd "C-c C-m") 'execute-extended-command)
+(global-set-key (kbd "C-c C-,") 'execute-extended-command)
+;;(global-set-key (kbd "M-m :") 'execute-extended-command)
+(global-set-key (kbd "C-q") 'backward-kill-word)
 
 ;;----------------------------------------------------------------------------
 ;; 桌面保存
@@ -81,6 +98,13 @@
     (fundamental-mode)))
 
 
+;;----------------------------------------------------------------------------
+;; lua
+;;----------------------------------------------------------------------------
+
+(add-hook 'lua-mode-hook (lambda () (setq  lua-indent-level 4 )))
+
+
 
 ;;----------------------------------------------------------------------------
 ;; eclim
@@ -96,8 +120,15 @@
 ;; erlang
 ;;----------------------------------------------------------------------------
 
+;; erlang specific
+(setq flycheck-erlang-include-path (list "../include"
+                                         "../../include"))
 
-(defun zyk-erlang/init-erlang ()
+(setq flycheck-erlang-library-path (list "ebin" "../ebin"  "../../ebin"  "../../../ebin" "../deps/*/ebin" ))
+
+;;(setenv "ERL_LIBS" "/Users/zhuoyikang/source/vcity/deps")
+
+(defun zyk/init-erlang ()
   (use-package erlang
     :defer t
     :init
@@ -105,9 +136,9 @@
       ;; explicitly run prog-mode hooks since erlang mode does is not
       ;; derived from prog-mode major-mode
       (add-hook 'erlang-mode-hook (lambda () (run-hooks 'prog-mode-hook)))
-      (setq erlang-root-dir "~/source/erlang/18.3/erts-7.3")
-      (add-to-list 'exec-path "~/source/erlang/18.3/erts-7.3/bin")
-      (setq erlang-man-root-dir "~/source/erlang/18.3/erts-7.3/man")
+      (setq erlang-root-dir "/usr/local/Cellar/erlang/19.1/lib/erlang/erts-8.1")
+      (add-to-list 'exec-path "/usr/local/Cellar/erlang/19.1/lib/erlang/erts-8.1/bin")
+      (setq erlang-man-root-dir "/usr/local/Cellar/erlang/19.1/lib/erlang/erts-8.1/man")
       (add-hook 'erlang-mode-hook
                 (lambda ()
                   (setq mode-name "Erlang")
@@ -122,7 +153,7 @@
     :config
     (require 'erlang-start)))
 
-(defun zyk-erlang/post-init-erlang ()
+(defun zyk/post-init-erlang ()
   (progn
     (add-to-list 'load-path "~/source/distel/elisp")
     (require 'distel)
@@ -131,3 +162,19 @@
     (setq erl-nodename-cache 'develop@127.0.0.1)
     )
   )
+
+
+
+;; (defun describe-last-function()
+;;   (interactive)
+;;   (describe-function last-command))
+
+
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2))
+
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+
+(setq web-mode-style-padding 1)
